@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"gopkg.in/go-playground/validator.v8"
+	"github.com/go-playground/validator/v10"
 )
 
 func Bind(c *gin.Context, obj interface{}) error {
@@ -28,10 +28,10 @@ func NewValidatorError(err error) CommonError {
 	for _, v := range errs {
 		// can translate each error one at a time.
 		//fmt.Println("gg",v.NameNamespace)
-		if v.Param != "" {
-			res.Errors[v.Field] = fmt.Sprintf("{%v: %v}", v.Tag, v.Param)
+		if v.Param() != "" {
+			res.Errors[v.Field()] = fmt.Sprintf("{%v: %v}", v.Tag(), v.Param())
 		} else {
-			res.Errors[v.Field] = fmt.Sprintf("{key: %v}", v.Tag)
+			res.Errors[v.Field()] = fmt.Sprintf("{key: %v}", v.Tag())
 		}
 
 	}
